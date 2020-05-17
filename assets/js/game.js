@@ -11,7 +11,7 @@ var enemyAttack = 12;
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 
 //Game States
-//"WIN" - P;ayer robot has defeated all enemy robots
+//"WIN" - Player robot has defeated all enemy robots
 //  * Fight all enemy robots
 //  * Defeat each enemy robot
 //"LOSE" - Player robot's heath is zero or less
@@ -20,7 +20,7 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var fight = function(enemyName) {
 
   // repeat while enemy robot is still alive
-  while(enemyHealth > 0 && playerHealth > 0) {
+  while (enemyHealth > 0 && playerHealth > 0) {
 
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
@@ -87,26 +87,76 @@ var startGame = function() {
       window.alert("You have lost your robot in battle! Game Over");
       break;
     }
+
+    if (playerHealth > 0 && i < enemyNames.length - 1) {
+      var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+
+      if (storeConfirm) {
+        shop();
+      }
+    }
+
     endGame();
   }
+
 
   startGame();
 }
 
 var endGame = function() {
-  var playAgainConfirm = window.confirm("Would you like to play again?")
+  var playAgainConfirm = window.confirm("Would you like to play again?");
 
   if(playAgainConfirm) {
     startGame();
   } else {
-    window.alert("Thank you for playing Robot Gladiators!")
+    window.alert("Thank you for playing Robot Gladiators!");
   }
   if (playerHealth > 0) {
-    window.alert("The game has now ended. Let's see how you did!")
+    window.alert("The game has now ended. Let's see how you did!");
   } else {
-    window.alert("You've lost your robot in battle.")
+    window.alert("You've lost your robot in battle.");
   }
+}
 
+var shop = function() {
+  var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.")
+
+  switch (shopOptionPrompt) {
+    case "REFILL":
+    case "refill":
+      if (playerMoney >= 7) {
+        window.alert("Refilling player's health by 20 for 7 dollars.");
+
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        window.alert("You don't have enough money!");
+      }
+
+      break;
+    case "UPGRADE":
+    case "upgrade":
+      if (playerMoney >= 7) {
+        window.alert("Upgrading player's attack by 6 for 7 dollars.");
+
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        window.alert("You don't have enough money!");
+      }
+
+      break;
+    case "LEAVE":
+    case "leave":
+      window.alert("Leaving the store.");
+      break;
+    default:
+      window.alert("You did not pick a valid option. Try again.");
+      shop();
+      break;
+  }
 }
 
 startGame();
